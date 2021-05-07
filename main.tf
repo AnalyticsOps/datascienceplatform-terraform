@@ -8,8 +8,8 @@ terraform {
 }
 
 locals {
-  resource_postfix             = "${var.project_name}-${var.environment_name}-${var.resource_number}"
-  resource_postfix_restricted  = "${var.project_name}${var.environment_name}${var.resource_number}"
+  resource_postfix             = "${var.project_name}-${var.resource_number}"
+  resource_postfix_restricted  = "${var.project_name}${var.resource_number}"
 }
 
 data "azurerm_resource_group" "this" {
