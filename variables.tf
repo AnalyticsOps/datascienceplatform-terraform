@@ -26,7 +26,12 @@ variable "tenant_id" {
   type = string
 }
 
-variable "subnets_whitelist" {
+variable "subnet_whitelist" {
+  type = list
+  default = []
+}
+
+variable "ip_whitelist" {
   type = list
   default = []
 }

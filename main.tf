@@ -55,9 +55,9 @@ resource "azurerm_storage_account_network_rules" "this" {
   storage_account_name = module.training_data.name
 
   default_action             = "Deny"
-  ip_rules                   = ["194.239.2.0/24"]
+  ip_rules                   = var.ip_whitelist
   virtual_network_subnet_ids = concat(
-    [azurerm_subnet.amlcompute_subnet.id, "/subscriptions/2c63e008-0007-4b92-bfe5-b1fdc94697d5/resourceGroups/analyticsops-devops-agents/providers/Microsoft.Network/virtualNetworks/vnet-devops-agent-001/subnets/agent-subnet"],
+    [azurerm_subnet.amlcompute_subnet.id],
     var.subnets_whitelist
   )
   bypass                     = ["Metrics"]
