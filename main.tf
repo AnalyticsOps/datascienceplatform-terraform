@@ -58,7 +58,7 @@ resource "azurerm_storage_account_network_rules" "this" {
   ip_rules                   = var.ip_whitelist
   virtual_network_subnet_ids = concat(
     [azurerm_subnet.amlcompute_subnet.id],
-    var.subnets_whitelist
+    var.subnet_whitelist
   )
   bypass                     = ["Metrics"]
 }
