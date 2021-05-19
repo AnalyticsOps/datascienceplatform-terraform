@@ -140,7 +140,7 @@ resource "azurerm_machine_learning_workspace" "aml" {
           exit 1
       }
 
-      az config set extension.use_dynamic_install=yes_without_prompt
+      az extension add --name azure-cli-ml
       az login --service-principal --username ${var.client_id} --password ${var.client_secret} --tenant ${var.tenant_id}
 
       if ( $(az ml datastore list -g ${data.azurerm_resource_group.this.name} -w ${azurerm_machine_learning_workspace.aml.name} --query "[?name == '${var.training_data_container_name}'].name") -eq '[]') {
