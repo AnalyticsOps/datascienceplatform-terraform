@@ -8,8 +8,8 @@ terraform {
 }
 
 locals {
-  resource_postfix             = "${var.project_name}-${var.environment_name}-${var.resource_number}"
-  resource_postfix_restricted  = "${var.project_name}${var.environment_name}${var.resource_number}"
+  resource_postfix             = "${var.project_name}-${var.resource_number}"
+  resource_postfix_restricted  = "${var.project_name}${var.resource_number}"
 }
 
 data "azurerm_resource_group" "this" {
@@ -55,10 +55,10 @@ resource "azurerm_storage_account_network_rules" "this" {
   storage_account_name = module.training_data.name
 
   default_action             = "Deny"
-  ip_rules                   = ["194.239.2.0/24"]
+  ip_rules                   = var.ip_whitelist
   virtual_network_subnet_ids = concat(
-    [azurerm_subnet.amlcompute_subnet.id, "/subscriptions/2c63e008-0007-4b92-bfe5-b1fdc94697d5/resourceGroups/analytics-ops-devops-agents/providers/Microsoft.Network/virtualNetworks/vnet-devops-agent-001/subnets/agent-subnet"],
-    var.subnets_whitelist
+    [azurerm_subnet.amlcompute_subnet.id],
+    var.subnet_whitelist
   )
   bypass                     = ["Metrics"]
 }
@@ -140,7 +140,7 @@ resource "azurerm_machine_learning_workspace" "aml" {
           exit 1
       }
 
-      az config set extension.use_dynamic_install=yes_without_prompt
+      az extension add --name azure-cli-ml
       az login --service-principal --username ${var.client_id} --password ${var.client_secret} --tenant ${var.tenant_id}
 
       if ( $(az ml datastore list -g ${data.azurerm_resource_group.this.name} -w ${azurerm_machine_learning_workspace.aml.name} --query "[?name == '${var.training_data_container_name}'].name") -eq '[]') {
