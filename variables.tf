@@ -40,3 +40,7 @@ variable "training_data_container_name" {
   type = string
   default = "data"
 }
+
+variable "security_group_id" {
+  type = string
+}
