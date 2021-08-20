@@ -38,5 +38,5 @@ variable "ip_whitelist" {
 
 variable "training_data_container_name" {
   type = string
-  default = "trainingdata"
+  default = "data"
 }

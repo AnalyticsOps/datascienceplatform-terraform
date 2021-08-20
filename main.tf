@@ -58,7 +58,7 @@ resource "azurerm_storage_account_network_rules" "this" {
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "this" {
-  name               = "data"
+  name               = var.training_data_container_name
   storage_account_id = module.training_data.id
 
   ace {
