@@ -40,12 +40,6 @@ module "training_data" {
   account_replication_type = "LRS"
   access_tier              = "Hot"
   is_hns_enabled           = true
-  containers = [
-    {
-      name        = var.training_data_container_name
-      access_type = "private"
-    }
-  ]
 }
 
 
@@ -61,6 +55,24 @@ resource "azurerm_storage_account_network_rules" "this" {
     var.subnet_whitelist
   )
   bypass                     = ["Metrics"]
+}
+
+resource "azurerm_storage_data_lake_gen2_filesystem" "this" {
+  name               = "data"
+  storage_account_id = module.training_data.id
+
+  ace {
+    scope = "default"
+    type = "group"
+    id = var.security_group_id
+    permissions = "rwx"
+  }
+  ace {
+    scope = "access"
+    type = "group"
+    id = var.security_group_id
+    permissions = "rwx"
+  }
 }
 
 resource "azurerm_container_registry" "model_images" {
