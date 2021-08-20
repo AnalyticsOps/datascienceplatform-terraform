@@ -104,7 +104,7 @@ module "aml_appi" {
 }
 
 module "aml_kv" {
-  source                   = "git@ssh.dev.azure.com:v3/energinet/CCoE/azure-kv-module?ref=1.6"
+  source                   = "git@ssh.dev.azure.com:v3/energinet/CCoE/azure-kv-module?ref=purge"
   name                     = "kv-aml-${local.resource_postfix}"
   resource_group_name      = data.azurerm_resource_group.this.name
   location                 = data.azurerm_resource_group.this.location
